@@ -4,7 +4,7 @@ import Player from './Player';
 import { io } from "socket.io-client";
 
 const DEFAULT_NAME = 'Anonyme';
-console.log('process.env: ', process);
+console.log('process.env.HOST: ', process.env.HOST);
 const DEFAULT_HOST = process.env.HOST;
 
 window.addEventListener('load', () => {
