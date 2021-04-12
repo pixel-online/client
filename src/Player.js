@@ -1,12 +1,25 @@
 class Player {
   constructor(name = 'Anonyme', xPosition = 0, yPosition = 0) {
     this._name = name;
+    this._id = null;
     this._x = xPosition;
     this._y = yPosition;
     this._moveToLeft = false
     this._moveToRight = false
     this._moveToTop = false
     this._moveToBottom = false
+  }
+
+  getId() {
+    return this._id;
+  }
+
+  setId(id) {
+    this._id = id;
+  }
+
+  setName(name) {
+    this._name = name;
   }
 
   getName() {
@@ -17,8 +30,16 @@ class Player {
     return this._x;
   }
 
+  setX(x) {
+    this._x = x;
+  }
+
   getY() {
     return this._y;
+  }
+
+  setY(y) {
+    this._y = y;
   }
 
   moveX(move) {
