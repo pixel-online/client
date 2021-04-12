@@ -6,7 +6,7 @@ module.exports = {
   //...
   plugins: [
     new Dotenv({
-      path: process.env.mode === 'development' ? './.dev.env' : './.env',
+      path: process.env.MODE === 'dev' ? './.dev.env' : './.env',
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',

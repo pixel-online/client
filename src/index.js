@@ -20,11 +20,11 @@ window.addEventListener('load', () => {
 		null, // The id of the element of the Dom that will be used as a container. If null, the engine will generate one inside the body
   );
   
-   // Choic du serveur
-   let host = prompt('Choissisez un serveur ?')
-   if (host === null) {
-     host = DEFAULT_HOST
-   }
+   // Choix du serveur
+  let host = prompt('Choissisez un serveur ?')
+  if (host === null) {
+    host = DEFAULT_HOST
+  }
 
   // Initialisation du jouer
   let name = prompt('Choissisez votre nom:')
