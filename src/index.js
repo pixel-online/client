@@ -3,8 +3,8 @@ import Game, { FONT_SIZE } from 'sbjr-game-framwork';
 import Player from './Player';
 import { io } from "socket.io-client";
 
-const DEFAULT_NAME = 'Anonyme'
-const DEFAULT_HOST = 'http://0.0.0.0:1337'
+const DEFAULT_NAME = 'Anonyme';
+const DEFAULT_HOST = process.env?.mode === 'development' ? 'http://0.0.0.0:1337' : 'https://pixel-hockey-online.herokuapp.com/';
 
 window.addEventListener('load', () => {
 
