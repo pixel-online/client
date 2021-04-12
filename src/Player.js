@@ -1,3 +1,5 @@
+const PLAYER_SPEED = 10;
+
 class Player {
   constructor(name = 'Anonyme', xPosition = 0, yPosition = 0) {
     this._name = name;
@@ -82,15 +84,15 @@ class Player {
 
   update() {
     if (this._moveToRight) {
-      this._x += 2
+      this._x += PLAYER_SPEED
     } else if (this._moveToLeft) {
-      this._x -= 2
+      this._x -= PLAYER_SPEED
     }
 
     if (this._moveToTop) {
-      this._y -= 2
+      this._y -= PLAYER_SPEED
     } else if (this._moveToBottom) {
-      this._y += 2
+      this._y += PLAYER_SPEED
     }
   }
 }
