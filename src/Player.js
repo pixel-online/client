@@ -2,12 +2,21 @@ class Player {
   constructor(name = 'Anonyme', xPosition = 0, yPosition = 0) {
     this._name = name;
     this._id = null;
+    this._screenPosition = 'LEFT';
     this._x = xPosition;
     this._y = yPosition;
     this._moveToLeft = false
     this._moveToRight = false
     this._moveToTop = false
     this._moveToBottom = false
+  }
+
+  getScreenPosition() {
+    return this._screenPosition;
+  }
+
+  setScreenPosition(position) {
+    this._screenPosition = position;
   }
 
   getId() {

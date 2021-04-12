@@ -12,6 +12,14 @@ module.exports = {
       process: 'process/browser',
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|mp3|wav|ogg)$/,
+        loader: 'file-loader',
+      },
+    ],
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
