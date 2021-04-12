@@ -4,7 +4,8 @@ import Player from './Player';
 import { io } from "socket.io-client";
 
 const DEFAULT_NAME = 'Anonyme';
-const DEFAULT_HOST = process.env?.mode === 'development' ? 'http://0.0.0.0:1337' : 'https://pixel-hockey-online.herokuapp.com/';
+console.log('process.env: ', process);
+const DEFAULT_HOST = process.env.HOST;
 
 window.addEventListener('load', () => {
 

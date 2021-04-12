@@ -1,7 +1,17 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   //...
+  plugins: [
+    new Dotenv({
+      path: process.env.mode === 'development' ? './.dev.env' : './.env',
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+  ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
