@@ -28,7 +28,6 @@ class Socket {
 	
 		this._socket.on("connectUser", (params) => {       
 			this._game._player2.setName(params.name);
-			console.log('this._game: ', this._game);
 			if (params.position === 'LEFT') {
 				this._game._player2.setScreenPosition('LEFT');
 				this._game._player2.setX(32);
@@ -56,7 +55,7 @@ class Socket {
 		});
 	
 		this._socket.on("deconnectUser", () => {
-			this._game._player2.setId(null);
+			this._game.reset();
 		});
 
 		this._socket.on("startGame", () => {
@@ -66,6 +65,31 @@ class Socket {
 		this._socket.on("stopGame", () => {
 			this._game.resetGame()
 		});
+
+		this._socket.on('gameUpdate', ({
+			players,
+			ball,
+		}) => {
+			players.map(player => {
+				if (this._game._player1.getId() === player.id) {
+					this._game._player1.setX(player.x)
+					this._game._player1.setY(player.y)
+					this._game._player1.moveX(player.moveX)
+					this._game._player1.moveY(player.moveY)
+				} else if (this._game._player2.getId() === player.id) {
+					this._game._player2.setX(player.x)
+					this._game._player2.setY(player.y)
+					this._game._player2.moveX(player.moveX)
+					this._game._player2.moveY(player.moveY)
+				}
+			})
+			// TODO: Update from server
+			this._game._ball.setX(ball.x)
+			this._game._ball.setY(ball.y)
+			this._game._ball.moveX(ball.moveX)
+			this._game._ball.moveY(ball.moveY)
+		});
+		
 	
 		setInterval(() => {
 			this._socket.emit('updateMove', ({

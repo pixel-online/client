@@ -4,7 +4,7 @@ import BACKGROUND_IMG from '../assets/background-img.png';
 import BALL_IMG from '../assets/ball.png';
 import BONUS_IMG from '../assets/bonus-1.png';
 import Ball from './Ball';
-import Bonus from './Bonus'
+import Bonus from './Bonus';
 import PLAYER_LEFT_IMG from '../assets/player-left.png';
 import PLAYER_RIGHT_IMG from '../assets/player-right.png';
 import Player from './Player';
@@ -12,19 +12,29 @@ import Socket from './Socket';
 
 class Game {
 	constructor() {
-		this._gameEngine = new GameEngine(false, 'pixel online', null );
+		this._gameEngine = new GameEngine(false, 'pixel online', null);
+		this._socket = new Socket(this);
+		this._initGame()
+		this._initEvent();
+	}
+
+	_initGame() {
 		this._player1 = new Player();
 		this._player2 = new Player();
-		this._ball = new Ball(1280/2-32, 768/2-32);
-		this._bonus = new Bonus(1280/2-32, 768/2-32);
-		this._bonus.moveX("LEFT")
+		this._ball = new Ball(
+			(this._gameEngine._canvasElt.height + 64)/2,
+			(this._gameEngine._canvasElt.width + 64)/2,
+		);
+		this._bonus = new Bonus();
 		this._pendingStart = false;
 		this._pendingStartCounter = Date.now();
 		this._run = false;
-		this._initEvent();
-		this._socket = new Socket(this);
-		console.log(this._gameEngine._canvasElt.height, this._gameEngine._canvasElt.width);
 		
+		
+	}
+
+	reset() {
+		this._initGame()
 	}
 		
 	startCounterGame() {
@@ -54,11 +64,11 @@ class Game {
 			if (this._run || this._pendingStart) {
 				// Mise à jour
 				if (!this._pendingStart) {
-					this._ball.update();
-					this._bonus.update();
-					this._player1.update();
+					// this._ball.update();
+					// this._bonus.update();
+					// this._player1.update();
 					if (this._player2.getId() !== null) {
-						this._player2.update();
+						// this._player2.update();
 					}
 				}
 	
@@ -164,6 +174,21 @@ class Game {
 				}
 			}
 		})
+
+		// Manette
+		window.addEventListener('gamepadconnected', (e) => {
+			console.log("Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
+			e.gamepad.index, e.gamepad.id,
+			e.gamepad.buttons.length, e.gamepad.axes.length);
+		});
+
+		window.addEventListener("gamepadconnected", function(e) {
+			var gamepad = navigator.getGamepads()[e.gamepad.index];
+			console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+			gamepad.index, gamepad.id,
+			gamepad.buttons.length, gamepad.axes.length);
+		});
+		// Manette
 	}
 }
 
