@@ -86,7 +86,7 @@ class Player {
     if (this._moveToRight) {
       this._x += PLAYER_SPEED
     } else if (this._moveToLeft) {
-      this._x -= PLAYER_SPEED
+        this._x -= newValue;
     }
 
     if (this._moveToTop) {

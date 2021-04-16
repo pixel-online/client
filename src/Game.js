@@ -5,6 +5,7 @@ import BALL_IMG from '../assets/ball.png';
 import BONUS_IMG from '../assets/bonus-1.png';
 import Ball from './Ball';
 import Bonus from './Bonus';
+import Gamepads from 'gamepads';
 import PLAYER_LEFT_IMG from '../assets/player-left.png';
 import PLAYER_RIGHT_IMG from '../assets/player-right.png';
 import Player from './Player';
@@ -16,6 +17,7 @@ class Game {
 		this._socket = new Socket(this);
 		this._initGame()
 		this._initEvent();
+		Gamepads.start();
 	}
 
 	_initGame() {
@@ -177,18 +179,47 @@ class Game {
 
 		// Manette
 		window.addEventListener('gamepadconnected', (e) => {
-			console.log("Contrôleur n°%d connecté : %s. %d boutons, %d axes.",
-			e.gamepad.index, e.gamepad.id,
-			e.gamepad.buttons.length, e.gamepad.axes.length);
+			Gamepads.addEventListener('connect', e => {
+				console.log('Gamepad connected');
+				console.log(e.gamepad);
+				e.gamepad.addEventListener('buttonpress', e => {
+					console.log(e)
+					
+				});
+				e.gamepad.addEventListener('buttonrelease', e => {
+					console.log(e)
+				});
+				e.gamepad.addEventListener('joystickmove', e => {
+					console.log(e.horizontalValue)
+					// top et bot
+					if(e.verticalValue<0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'TOP', id: this._socket.getSocket().id})
+					}
+					if(e.verticalValue===0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'STOP_TOP', id: this._socket.getSocket().id})
+					}
+					if(e.verticalValue>0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'BOTTOM', id: this._socket.getSocket().id})
+					}
+					if(e.verticalValue===0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'STOP_BOTTOM', id: this._socket.getSocket().id})
+					}
+					// right et left
+					if(e.horizontalValue>0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'RIGHT', id: this._socket.getSocket().id})
+					}
+					if(e.horizontalValue===0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'STOP_RIGHT', id: this._socket.getSocket().id})
+					}
+					if(e.horizontalValue<0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'LEFT', id: this._socket.getSocket().id})
+					}
+					if(e.horizontalValue===0) {
+						this._socket.getSocket().emit('playerMove', { direction: 'STOP_LEFT', id: this._socket.getSocket().id})
+					}
+				}, [0, 1]);
+			});	// Manette
 		});
-
-		window.addEventListener("gamepadconnected", function(e) {
-			var gamepad = navigator.getGamepads()[e.gamepad.index];
-			console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-			gamepad.index, gamepad.id,
-			gamepad.buttons.length, gamepad.axes.length);
-		});
-		// Manette
 	}
 }
 

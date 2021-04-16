@@ -21,6 +21,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "gamepads": "^1.2.2",
     "sbjr-game-framwork": "^0.1.1",
     "socket.io-client": "^4.0.1"
   }
